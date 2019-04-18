@@ -28,7 +28,7 @@
 <style>
   /* https://color.adobe.com/Ventana-Azul-color-theme-2159606/?showPublished=true */
   #app {
-    font-family: "Avenir", Helvetica, Arial, sans-serif;
+    font-family: "Open Sans", Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: #2c3e50;
@@ -44,6 +44,7 @@
     /* Or set the width explicitly: */
     text-align: left;
     background: #000;
+    z-index: 5;
   }
 
   .pure-menu-heading {

@@ -1,20 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
-    <title>Maame | Maternal Health</title>  
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/purecss@1.0.0/build/pure-min.css"
+      integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w"
+      crossorigin="anonymous"
+    />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" />
+    <title>Maame | Maternal Health</title>
+
+    <style>
+      * {
+        font-family: "Open Sans", sans-serif;
+      }
+
+      footer a {
+        display: inline-block;
+        color: #cc0000;
+        opacity: 1;
+        visibility: visible;
+        -moz-transform: translateY(0) translateZ(0);
+        -ms-transform: translateY(0) translateZ(0);
+        -webkit-transform: translateY(0) translateZ(0);
+        transition: filter 0.4s cubic-bezier(0.15, 0.9, 0.34, 0.95);
+        letter-spacing: 0.05em;
+        text-decoration: none !important;
+        position: relative;
+      }
+
+      footer a:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        background: #cc0000;
+        height: 1px;
+        width: 100%;
+        transform-origin: left center;
+        -moz-transition: -moz-transform 0.4s cubic-bezier(0.15, 0.9, 0.34, 0.95);
+        -o-transition: -o-transform 0.4s cubic-bezier(0.15, 0.9, 0.34, 0.95);
+        -webkit-transition: -webkit-transform 0.4s cubic-bezier(0.15, 0.9, 0.34, 0.95);
+        transition: filter tranform 0.4s cubic-bezier(0.15, 0.9, 0.34, 0.95);
+      }
+
+      footer a:hover {
+        color: #cc0000;
+        filter: brightness(60%);
+      }
+      footer a:hover::after {
+        transform: scaleX(0);
+        transform-origin: right center;
+      }
+
+      footer {
+        position: fixed;
+        height: 40px;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: white;
+        border-top: 1px solid lightgray;
+      }
+
+      footer a {
+        margin: 0px 8px;
+      }
+    </style>
   </head>
   <body>
     <noscript>
-      <strong>We're sorry but Maame doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+      <strong
+        >We're sorry but Maame doesn't work properly without JavaScript enabled. Please enable it to
+        continue.</strong
+      >
     </noscript>
     <div id="app"></div>
     <!-- built files will be auto injected -->
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.1/js/all.js" integrity="sha256-FfgLgtUyCun3AtxuU4iXuVNSbOzW6p1ozrdO0PlV6qA=" crossorigin="anonymous"></script>
+    <footer>
+      © Maame Health, 2019 |
+      <a target="_blank" href="https://github.com/claycoleman/cs260-creative-project-5"
+        >GitHub Repo</a
+      >
+    </footer>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.1/js/all.js"
+      integrity="sha256-FfgLgtUyCun3AtxuU4iXuVNSbOzW6p1ozrdO0PlV6qA="
+      crossorigin="anonymous"
+    ></script>
   </body>
 </html>
