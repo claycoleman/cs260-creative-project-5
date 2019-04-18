@@ -58,13 +58,13 @@ router.post('/', auth.verifyToken, User.verify, async (req, res) => {
   }
 });
 
-// get my patients
+// get patients of my organization
 router.get('/', auth.verifyToken, User.verify, async (req, res) => {
   // return patients
   try {
     let patients = await Patient.find({
-      user: req.user,
-    }).sort({
+      organization: req.user.organization,
+    }).populate('user').sort({
       created: -1,
     });
     return res.send(patients);
@@ -107,6 +107,40 @@ router.get('/:patientId', async (req, res) => {
       },
     });
     return res.send(patient);
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+});
+
+// update patient by id
+router.put('/:patientId', async (req, res) => {
+  // return patients
+  try {
+    let patient = await Patient.findOne({
+      _id: req.params.patientId,
+    });
+
+    patient.name = req.body.name;
+    patient.birthDate = req.body.birthDate;
+    patient.dueDate = req.body.dueDate;
+
+    await patient.save();
+    return res.sendStatus(200);
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+});
+
+// delete patient by id
+router.delete('/:patientId', async (req, res) => {
+  // return patients
+  try {
+    await Patient.deleteOne({
+      _id: req.params.patientId
+    });
+    return res.sendStatus(200);
   } catch (error) {
     console.log(error);
     return res.sendStatus(500);

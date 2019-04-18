@@ -25,8 +25,8 @@ app.use('/api/users', users.routes);
 const patients = require('./patients.js');
 app.use('/api/patients', patients.routes);
 
-const comments = require('./comments.js');
-app.use('/api/comments', comments.routes);
+const healthnotes = require('./healthnotes.js');
+app.use('/api/healthnotes', healthnotes.routes);
 
 const organizations = require('./organizations.js');
 app.use('/api/organizations', organizations.routes);

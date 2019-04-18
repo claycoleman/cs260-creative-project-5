@@ -1,7 +1,13 @@
 <template>
   <div>
-    <div v-on:click="openPatientDetail(patient._id)" class="patient" v-for="patient in patients" v-bind:key="patient._id">
+    <div
+      v-on:click="openPatientDetail(patient._id)"
+      class="patient"
+      v-for="patient in patients"
+      v-bind:key="patient._id"
+    >
       <p class="patientTitle">{{ patient.name }}</p>
+      <p class="patientDate"><b>Health Worker: </b>{{ patient.user.name }}</p>
       <p class="patientDate">
         <b>Birth Date: </b>{{ formatDate(patient.birthDate) }}
       </p>
@@ -23,8 +29,7 @@
     },
     methods: {
       formatDate(date) {
-        if (moment(date).diff(Date.now(), "days") < 15)
-          return moment(date).format("MMMM D, YYYY");
+        return moment(date).format("MMMM D, YYYY");
       },
       openPatientDetail(patientId) {
         this.$router.push({ path: `/patient/${patientId}` });
@@ -56,7 +61,7 @@
     display: inline-block;
     cursor: pointer;
     padding: 16px;
-    margin: 8px
+    margin: 8px;
   }
 
   .patient:hover {
@@ -73,6 +78,6 @@
   }
 
   .patient img:hover {
-    transform: scale(1.0);
+    transform: scale(1);
   }
 </style>

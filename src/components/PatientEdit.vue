@@ -55,17 +55,26 @@
     props: {
       show: Boolean
     },
-    data() {
+    async created() {
+      await this.$store.dispatch("getPatient", this.$route.params.patientId);
       const patient = this.$store.state.currentPatient;
-      const birthDate = moment( patient.birthDate );
-      const dueDate = moment( patient.dueDate );
+      const birthDate = moment(patient.birthDate);
+      const dueDate = moment(patient.dueDate);
+
+      this.name = patient.name;
+      this.birthDateText = birthDate.format("MMMM D, YYYY");
+      this.birthDate = birthDate;
+      this.dueDateText = dueDate.format("MMMM D, YYYY");
+      this.dueDate = dueDate;
+    },
+    data() {
       return {
-        name: patient.name,
-        birthDateText: birthDate.format("MMMM D, YYYY"),
-        birthDate: birthDate,
+        name: "",
+        birthDateText: "",
+        birthDate: null,
         birthDateEdited: false,
-        dueDateText: dueDate.format("MMMM D, YYYY"),
-        dueDate: dueDate,
+        dueDateText: "",
+        dueDate: null,
         dueDateEdited: false,
         error: ""
       };
@@ -123,21 +132,14 @@
           const formData = {
             name: this.name,
             birthDate: this.birthDate.valueOf(),
-            dueDate: this.dueDate.valueOf(),
+            dueDate: this.dueDate.valueOf()
           };
 
-          this.error = await this.$store.dispatch("uploadPatient", formData);
+          this.error = await this.$store.dispatch("updatePatient", {
+            formData,
+            patientId: this.$route.params.patientId
+          });
           if (!this.error) {
-            this.name = "";
-
-            this.birthDate = null;
-            this.birthDateText = "";
-            this.birthDateEdited = false;
-
-            this.dueDate = null;
-            this.dueDateText = "";
-            this.dueDateEdited = false;
-
             this.$emit("uploadFinished");
           }
         } catch (error) {

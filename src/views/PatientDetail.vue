@@ -27,7 +27,7 @@
         </div>
         
       </div>
-      <p><button @click="togglePatientEdit" class="pure-button">Edit Patient</button></p>
+      <p><button @click="togglePatientEdit" class="pure-button">Edit Patient</button><button @click="deletePatient" class="pure-button danger">Delete Patient</button></p>
     </div>
     
     <div id="healthNotes">
@@ -45,7 +45,7 @@
         placeholder="Health note..."
       ></textarea>
       <div
-        v-on:click="addComment"
+        v-on:click="addHealthNote"
         :class="{ 'pure-button': true, active: healthNoteText.trim().length }"
       >
         Submit
@@ -96,21 +96,27 @@
         return this.$store.state.user;
       },
       healthNotes() {
-        return this.$store.state.currentComments;
+        return this.$store.state.currentHealthNotes;
       }
     },
     async created() {
       await this.$store.dispatch("getUser");
       await this.$store.dispatch("getPatient", this.$route.params.patientId);
-      await this.$store.dispatch("getComments", this.$route.params.patientId);
+      await this.$store.dispatch("getHealthNotes", this.$route.params.patientId);
     },
     methods: {
       formatDate(date) {
-        if (moment(date).diff(Date.now(), "days") < 15)
-          return moment(date).format("MMMM D, YYYY");
+        return moment(date).format("MMMM D, YYYY");
       },
       togglePatientEdit() {
         this.show = true;
+      },
+      async deletePatient() {
+        if (confirm("Are you sure you want to delete this patient? This action cannot be undone.")) {
+          await this.$store.dispatch("deletePatient", this.$route.params.patientId);
+          await this.$store.dispatch("getMyPatients");
+          this.$router.push({ path: '/dashboard' });
+        }
       },
       escape() {
         this.show = false;
@@ -118,7 +124,10 @@
       togglePatientCreate() {
         this.show = true;
       },
-      async addComment() {
+      async addHealthNote() {
+        if (!this.healthNoteText.trim()) {
+          return;
+        }
         try {
           const formData = {
             body: this.healthNoteText
@@ -130,12 +139,12 @@
           };
 
           this.error = await this.$store.dispatch(
-            "createComment",
+            "createHealthNote",
             dispatchObject
           );
           if (!this.error) {
             this.healthNoteText = "";
-            this.$store.dispatch("getComments", this.$route.params.patientId);
+            this.$store.dispatch("getHealthNotes", this.$route.params.patientId);
           }
         } catch (error) {
           console.log(error);
@@ -145,6 +154,8 @@
       async uploadFinished() {
         this.show = false;
         try {
+          await this.$store.dispatch("getPatient", this.$route.params.patientId);
+
           this.error = await this.$store.dispatch("getMyPatients");
         } catch (error) {
           console.log(error);
@@ -240,5 +251,9 @@
   p.small {
     font-size: 14px;
     font-weight: bold;
+  }
+  
+  .danger {
+    background-color: lightcoral;
   }
 </style>

@@ -9,7 +9,7 @@ const User = users.model;
 const patient = require('./patients.js');
 const Patient = patient.model;
 
-const commentSchema = new mongoose.Schema({
+const healthNoteSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.ObjectId,
     ref: 'User',
@@ -25,18 +25,18 @@ const commentSchema = new mongoose.Schema({
   },
 });
 
-const Comment = mongoose.model('Comment', commentSchema);
+const HealthNote = mongoose.model('HealthNote', healthNoteSchema);
 
 // routes
 
-// get comments for patient
+// get healthNotes for patient
 router.get('/:patientId', async (req, res) => {
   // return patient
   try {
     let patient = await Patient.findOne({
       _id: req.params.patientId,
     });
-    let comments = await Comment.find({
+    let healthNotes = await HealthNote.find({
       patient: patient,
     })
       .sort({
@@ -44,14 +44,14 @@ router.get('/:patientId', async (req, res) => {
       })
       .populate('user');
 
-    return res.send(comments);
+    return res.send(healthNotes);
   } catch (error) {
     console.log(error);
     return res.sendStatus(500);
   }
 });
 
-// add a comment for a patient
+// add a healthNote for a patient
 router.post('/:patientId', auth.verifyToken, User.verify, async (req, res) => {
   // check parameters
 
@@ -70,14 +70,14 @@ router.post('/:patientId', auth.verifyToken, User.verify, async (req, res) => {
     return res.sendStatus(500);
   }
 
-  const newComment = new Comment({
+  const healthNote = new HealthNote({
     user: req.user,
     patient: patient,
     body: req.body.body,
   });
 
   try {
-    await newComment.save();
+    await healthNote.save();
     return res.sendStatus(200);
   } catch (error) {
     console.log(error);
@@ -86,6 +86,6 @@ router.post('/:patientId', auth.verifyToken, User.verify, async (req, res) => {
 });
 
 module.exports = {
-  model: Comment,
+  model: HealthNote,
   routes: router,
 };

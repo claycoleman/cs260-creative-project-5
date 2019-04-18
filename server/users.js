@@ -198,7 +198,6 @@ router.delete('/', auth.verifyToken, User.verify, async (req, res) => {
 // Get current user if logged in.
 router.get('/', auth.verifyToken, User.verify, async (req, res) => {
   const user = await req.user.populate('organization');
-  console.log(user);
   return res.send(user);
 });
 

@@ -10,7 +10,7 @@ export default new Vuex.Store({
     user: null,
     patients: [],
     currentPatient: null,
-    currentComments: [],
+    currentHealthNotes: [],
   },
   mutations: {
     setUser(state, user) {
@@ -22,8 +22,8 @@ export default new Vuex.Store({
     setCurrentPatient(state, currentPatient) {
       state.currentPatient = currentPatient;
     },
-    setCurrentComments(state, currentComments) {
-      state.currentComments = currentComments;
+    setCurrentHealthNotes(state, currentHealthNotes) {
+      state.currentHealthNotes = currentHealthNotes;
     },
   },
   actions: {
@@ -71,10 +71,26 @@ export default new Vuex.Store({
         return error.response.data.message;
       }
     },
+    async updatePatient(context, { formData, patientId }) {
+      try {
+        await axios.put(`/api/patients/${patientId}`, formData);
+        return '';
+      } catch (error) {
+        return error.response.data.message;
+      }
+    },
     async getPatient(context, patientId) {
       try {
         let response = await axios.get(`/api/patients/${patientId}`);
         context.commit('setCurrentPatient', response.data);
+        return '';
+      } catch (error) {
+        return '';
+      }
+    },
+    async deletePatient(context, patientId) {
+      try {
+        await axios.delete(`/api/patients/${patientId}`);
         return '';
       } catch (error) {
         return '';
@@ -98,20 +114,20 @@ export default new Vuex.Store({
         return '';
       }
     },
-    async getComments(context, patientId) {
+    async getHealthNotes(context, patientId) {
       try {
-        let response = await axios.get(`/api/comments/${patientId}`);
-        context.commit('setCurrentComments', response.data);
+        let response = await axios.get(`/api/healthnotes/${patientId}`);
+        context.commit('setCurrentHealthNotes', response.data);
         return '';
       } catch (error) {
         return '';
       }
     },
-    async createComment(context, dispatchObject) {
+    async createHealthNote(context, dispatchObject) {
       const { formData, patientId } = dispatchObject;
 
       try {
-        await axios.post(`/api/comments/${patientId}`, formData);
+        await axios.post(`/api/healthnotes/${patientId}`, formData);
         return '';
       } catch (error) {
         return error.response.data.message;
