@@ -1,18 +1,25 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <image-gallery :photos="photos" />
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+  // @ is an alias to /src
+  import ImageGallery from "@/components/ImageGallery.vue";
 
-export default {
-  name: 'home',
-  components: {
-    HelloWorld
-  }
-}
+  export default {
+    name: "home",
+    components: {
+      ImageGallery
+    },
+    computed: {
+      photos() {
+        return this.$store.state.photos;
+      }
+    },
+    async created() {
+      await this.$store.dispatch("getAllPhotos");
+    }
+  };
 </script>
