@@ -15,9 +15,9 @@ export default new Router({
       component: Home,
     },
     {
-      path: '/mypage',
-      name: 'mypage',
-      component: () => import(/* webpackChunkName: "mypage" */ './views/MyPage.vue'),
+      path: '/dashboard',
+      name: 'dashboard',
+      component: () => import(/* webpackChunkName: "dashboard" */ './views/Dashboard.vue'),
     },
     {
       path: '/register',
@@ -30,9 +30,9 @@ export default new Router({
       component: () => import(/* webpackChunkName: "login" */ './views/Login.vue'),
     },
     {
-      path: '/photo/:photoId',
-      name: 'photo/:photoId',
-      component: () => import(/* webpackChunkName: "photo/:photoId" */ './views/SinglePhoto.vue'),
+      path: '/patient/:patientId',
+      name: 'patient/:patientId',
+      component: () => import(/* webpackChunkName: "patient" */ './views/PatientDetail.vue'),
     },
   ],
 });

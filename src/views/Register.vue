@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <h1>Register for an account</h1>
+  <div class="auth-page">
+    <h1>Health Worker Registration</h1>
     <form @submit.prevent="register" class="pure-form pure-form-aligned">
       <fieldset>
         <p class="pure-form-message-inline">All fields are required.</p>
@@ -8,6 +8,11 @@
         <div class="pure-control-group">
           <label for="name">Real Name</label>
           <input v-model="name" type="text" placeholder="Real Name" />
+        </div>
+
+        <div class="pure-control-group">
+          <label for="name">Organization Name</label>
+          <input v-model="organization" type="text" placeholder="Organization Name" />
         </div>
 
         <div class="pure-control-group">
@@ -37,6 +42,7 @@
     data() {
       return {
         name: "",
+        organization: "",
         username: "",
         password: "",
         error: ""
@@ -47,10 +53,11 @@
         try {
           this.error = await this.$store.dispatch("register", {
             name: this.name,
+            organization: this.organization,
             username: this.username,
             password: this.password
           });
-          if (this.error === "") this.$router.push("mypage");
+          if (this.error === "") this.$router.push("dashboard");
         } catch (error) {
           console.log(error);
         }
@@ -60,6 +67,12 @@
 </script>
 
 <style scoped>
+  .auth-page {
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   form {
     border: 1px solid #ccc;
     background-color: #eee;
@@ -73,5 +86,9 @@
 
   .pure-controls button {
     margin-left: auto;
+  }
+
+  .pure-control-group input {
+    min-width: calc(100% - 40px - 15em);
   }
 </style>

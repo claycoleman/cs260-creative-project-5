@@ -21,12 +21,12 @@
   export default {
     name: "home",
     computed: {
-      photos() {
-        return this.$store.state.photos;
+      patients() {
+        return this.$store.state.patients;
       }
     },
     async created() {
-      await this.$store.dispatch("getAllPhotos");
+      await this.$store.dispatch("getAllPatients");
     }
   };
 </script>

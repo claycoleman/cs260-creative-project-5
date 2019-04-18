@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <h1>Login to your account</h1>
+  <div class="auth-page">
+    <h1>Health Worker Login</h1>
     <form @submit.prevent="login" class="pure-form pure-form-aligned">
       <fieldset>
         <p class="pure-form-message-inline">All fields are required.</p>
@@ -44,7 +44,7 @@
             username: this.username,
             password: this.password
           });
-          if (this.error === "") this.$router.push("mypage");
+          if (this.error === "") this.$router.push("dashboard");
         } catch (error) {
           console.log(error);
         }
@@ -54,6 +54,12 @@
 </script>
 
 <style scoped>
+  .auth-page {
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   form {
     border: 1px solid #ccc;
     background-color: #eee;
@@ -67,5 +73,9 @@
 
   .pure-controls button {
     margin-left: auto;
+  }
+
+  .pure-control-group input {
+    min-width: calc(100% - 40px - 15em);
   }
 </style>

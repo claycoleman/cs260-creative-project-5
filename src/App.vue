@@ -6,16 +6,21 @@
         <li class="pure-menu-item">
           <router-link to="/" class="pure-menu-link">Home</router-link>
         </li>
-        <li class="pure-menu-item">
+        <li v-show="this.$store.state.user == null" class="pure-menu-item">
           <router-link to="/login" class="pure-menu-link">Login</router-link>
         </li>
-        <li class="pure-menu-item">
+        <li v-show="this.$store.state.user == null" class="pure-menu-item">
           <router-link to="/register" class="pure-menu-link"
             >Register</router-link
           >
         </li>
-        <li class="pure-menu-item">
-          <router-link to="/mypage" class="pure-menu-link">My Page</router-link>
+        <li v-show="this.$store.state.user != null" class="pure-menu-item">
+          <router-link to="/dashboard" class="pure-menu-link"
+            >Dashboard</router-link
+          >
+        </li>
+        <li v-show="this.$store.state.user != null" class="pure-menu-item">
+          <a class="pure-menu-link" @click="logout">Log Out</a>
         </li>
       </ul>
     </div>
@@ -24,6 +29,25 @@
     </div>
   </div>
 </template>
+
+<script>
+  export default {
+    name: "app",
+    methods: {
+      async logout() {
+        try {
+          this.error = await this.$store.dispatch("logout");
+          this.$router.push({ path: '/' });
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    },
+    async created() {
+      await this.$store.dispatch("getUser");
+    }
+  };
+</script>
 
 <style>
   /* https://color.adobe.com/Ventana-Azul-color-theme-2159606/?showPublished=true */
@@ -63,6 +87,7 @@
     color: #fff;
     padding: 10px 20px;
     font-weight: 800;
+    cursor: pointer;
   }
 
   .pure-menu-link:hover {
@@ -156,13 +181,13 @@
   }
 
   /*
-      * The following styles are auto-applied to elements with
-      * transition="modal" when their visibility is toggled
-      * by Vue.js.
-      *
-      * You can easily play with the modal transition by editing
-      * these styles.
-      */
+                * The following styles are auto-applied to elements with
+                * transition="modal" when their visibility is toggled
+                * by Vue.js.
+                *
+                * You can easily play with the modal transition by editing
+                * these styles.
+                */
   .modal-enter {
     opacity: 0;
   }

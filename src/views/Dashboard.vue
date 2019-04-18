@@ -3,30 +3,31 @@
     <div v-if="user">
       <div class="header">
         <div>
-          <h1>{{ user.name }}</h1>
+          <h1>Dashboard</h1>
         </div>
         <div>
-          <p>
-            <a @click="toggleUpload"><i class="far fa-image"></i></a>
-            <a href="#" @click="logout"><i class="fas fa-sign-out-alt"></i></a>
-          </p>
+          <p>Welcome, {{ user.name }}. Below are all patients in your organization, {{ user.organization.name }}.</p>
+          <p><button @click="togglePatientCreate" class="pure-button">New Patient</button></p>
         </div>
       </div>
+
       <escape-event @escape="escape"></escape-event>
-      <uploader
+      <patient-create
         :show="show"
         @escape="escape"
         @uploadFinished="uploadFinished"
       />
-      <image-gallery :photos="photos" />
-      <div v-if="photos.length == 0">
-        <h4>You don't have any photos yet! Get started on uploading one by clicking on the photo icon above.</h4>
+      <patient-gallery :patients="patients" />
+
+      <div v-if="patients.length == 0">
+        <h4>
+          You don't have any patients yet! Get started on creating one <a @click="togglePatientCreate">here</a>.
+        </h4>
       </div>
     </div>
     <div v-else>
       <p>
-        If you would like to upload photos, please register for an account or
-        login.
+        Please authenticate below.
       </p>
       <router-link to="/register" class="pure-button">Register</router-link> or
       <router-link to="/login" class="pure-button">Login</router-link>
@@ -37,33 +38,33 @@
 
 
 <script>
-  import Uploader from "@/components/Uploader.vue";
-  import ImageGallery from "@/components/ImageGallery.vue";
+  import PatientCreate from "@/components/PatientCreate.vue";
+  import PatientGallery from "@/components/PatientGallery.vue";
   import EscapeEvent from "@/components/EscapeEvent.vue";
 
   export default {
-    name: "mypage",
+    name: "dashboard",
     components: {
-      Uploader,
-      ImageGallery,
+      PatientCreate,
+      PatientGallery,
       EscapeEvent
     },
     data() {
       return {
-        show: false,
+        show: false
       };
     },
     computed: {
       user() {
         return this.$store.state.user;
       },
-      photos() {
-        return this.$store.state.photos;
+      patients() {
+        return this.$store.state.patients;
       }
     },
     async created() {
       await this.$store.dispatch("getUser");
-      await this.$store.dispatch("getMyPhotos");
+      await this.$store.dispatch("getMyPatients");
     },
     methods: {
       async logout() {
@@ -76,13 +77,13 @@
       escape() {
         this.show = false;
       },
-      toggleUpload() {
+      togglePatientCreate() {
         this.show = true;
       },
       async uploadFinished() {
         this.show = false;
         try {
-          this.error = await this.$store.dispatch("getMyPhotos");
+          this.error = await this.$store.dispatch("getMyPatients");
         } catch (error) {
           console.log(error);
         }
@@ -98,6 +99,14 @@
 
   .header {
     display: flex;
+    flex-direction: column;
+    text-align: center;
+    
+    border-bottom: 1px solid lightgray;
+  }
+
+  .header h1 {
+    margin: 0;
   }
 
   .header .button {
@@ -107,7 +116,6 @@
 
   .header a {
     padding-left: 50px;
-    color: #222;
     font-size: 2em;
   }
 

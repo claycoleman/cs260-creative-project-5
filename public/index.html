@@ -16,10 +16,10 @@
 
     <style>
       * {
-        font-family: "Open Sans", sans-serif;
+        font-family: 'Open Sans', sans-serif;
       }
 
-      footer a {
+      a:not(.pure-menu-link) {
         display: inline-block;
         color: #cc0000;
         opacity: 1;
@@ -31,15 +31,17 @@
         letter-spacing: 0.05em;
         text-decoration: none !important;
         position: relative;
+
+        cursor: pointer;
       }
 
-      footer a:after {
+      a:not(.pure-menu-link):after {
         content: '';
         position: absolute;
         bottom: 0;
         right: 0;
         background: #cc0000;
-        height: 1px;
+        height: 2px;
         width: 100%;
         transform-origin: left center;
         -moz-transition: -moz-transform 0.4s cubic-bezier(0.15, 0.9, 0.34, 0.95);
@@ -48,11 +50,12 @@
         transition: filter tranform 0.4s cubic-bezier(0.15, 0.9, 0.34, 0.95);
       }
 
-      footer a:hover {
+      a:not(.pure-menu-link):hover {
         color: #cc0000;
         filter: brightness(60%);
       }
-      footer a:hover::after {
+      
+      a:not(.pure-menu-link):hover::after {
         transform: scaleX(0);
         transform-origin: right center;
       }
