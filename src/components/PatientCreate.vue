@@ -36,7 +36,7 @@
                 Close
               </button>
               <button type="submit" class="pure-button pure-button-secondary">
-                Upload
+                Create
               </button>
             </form>
           </div>
